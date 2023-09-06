@@ -51,15 +51,6 @@ const loginSchema = object({
 const defaultTheme = createTheme();
 
 export default function Login() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
-
   return (
     <ThemeProvider theme={defaultTheme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -105,7 +96,7 @@ export default function Login() {
                 console.log(values);
               }}
             >
-              {({ values, handleChange }) => (
+              {({ values, handleChange, handleBlur, touched, errors }) => (
                 <Form>
                   <Box noValidate sx={{ mt: 1 }}>
                     <TextField
@@ -119,7 +110,11 @@ export default function Login() {
                       name="email"
                       value={values.email}
                       onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.email && Boolean(errors.email)}
+                      helperText={errors.email}
                     />
+
                     <TextField
                       margin="normal"
                       required
@@ -131,6 +126,9 @@ export default function Login() {
                       name="password"
                       value={values.password}
                       onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={touched.password && Boolean(errors.password)}
+                      helperText={errors.password}
                     />
                     <FormControlLabel
                       control={<Checkbox value="remember" color="primary" />}
